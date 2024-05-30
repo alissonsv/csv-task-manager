@@ -76,4 +76,20 @@ export const routes = [
       return res.writeHead(204).end();
     },
   },
+  {
+    method: "PATCH",
+    path: buildRoutePath("/tasks/:id/complete"),
+    handler: async (req: http.IncomingMessage, res: http.ServerResponse) => {
+      const taskToToggleComplete = await taskRepository.searchTaskById(
+        req.params.id,
+      );
+      if (!taskToToggleComplete) {
+        return res.writeHead(404).end();
+      }
+
+      await taskRepository.toggleCompleteTask(taskToToggleComplete);
+
+      return res.writeHead(204).end();
+    },
+  },
 ];

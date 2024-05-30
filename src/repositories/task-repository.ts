@@ -93,4 +93,17 @@ export class TaskRepository {
 
     await this.persist();
   }
+
+  async toggleCompleteTask(taskToToggleComplete: Task): Promise<void> {
+    this.taskDatabase = this.taskDatabase.map((task) =>
+      task.id === taskToToggleComplete.id
+        ? {
+            ...task,
+            completed_at: task.completed_at ? null : new Date(),
+          }
+        : task,
+    );
+
+    await this.persist();
+  }
 }

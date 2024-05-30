@@ -11,7 +11,7 @@ Implementação de uma API para realizar o CRUD de tasks, com as seguintes funci
     - [X] Listagem com filtro
 - [X] Atualização de uma task pelo `id`
 - [X] Remoção de uma task pelo `id`
-- [ ] Marcar pelo `id` uma task como completa
+- [X] Marcar pelo `id` uma task como completa
 - [ ] Realizar a importação de diversas tasks através da leitura de um aquivo CSV
 
 ## Como rodar local
