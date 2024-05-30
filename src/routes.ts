@@ -39,4 +39,25 @@ export const routes = [
       return res.end(JSON.stringify(tasks));
     },
   },
+  {
+    method: "PUT",
+    path: buildRoutePath("/tasks/:id"),
+    handler: async (req: http.IncomingMessage, res: http.ServerResponse) => {
+      const { title, description } = req.body ?? {};
+
+      const taskToBeUpdated = await taskRepository.searchTaskById(
+        req.params.id,
+      );
+      if (!taskToBeUpdated) {
+        return res.writeHead(404).end();
+      }
+
+      const updatedTask = await taskRepository.updateTask(
+        taskToBeUpdated,
+        title,
+        description,
+      );
+      return res.end(JSON.stringify(updatedTask));
+    },
+  },
 ];

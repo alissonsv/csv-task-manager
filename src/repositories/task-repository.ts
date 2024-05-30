@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
+import { UUID, randomUUID } from "node:crypto";
 
 import { Task } from "../models/Task";
 
@@ -60,5 +60,28 @@ export class TaskRepository {
     }
 
     return data;
+  }
+
+  async searchTaskById(id: UUID): Promise<Task | undefined> {
+    return this.taskDatabase.find((task) => task.id === id);
+  }
+
+  async updateTask(
+    task: Task,
+    title?: string,
+    description?: string,
+  ): Promise<Task> {
+    const taskIndex = this.taskDatabase.findIndex(
+      (element) => element.id === task.id,
+    );
+
+    this.taskDatabase[taskIndex] = {
+      ...task,
+      title: title ?? task.title,
+      description: description ?? task.description,
+    };
+
+    await this.persist();
+    return this.taskDatabase[0];
   }
 }
