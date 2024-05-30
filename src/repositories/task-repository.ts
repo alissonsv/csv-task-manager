@@ -67,19 +67,19 @@ export class TaskRepository {
   }
 
   async updateTask(
-    task: Task,
+    taskToBeUpdated: Task,
     title?: string,
     description?: string,
   ): Promise<Task> {
-    const taskIndex = this.taskDatabase.findIndex(
-      (element) => element.id === task.id,
+    this.taskDatabase = this.taskDatabase.map((task) =>
+      task.id === taskToBeUpdated.id
+        ? {
+            ...task,
+            title: title ?? task.title,
+            description: description ?? task.description,
+          }
+        : task,
     );
-
-    this.taskDatabase[taskIndex] = {
-      ...task,
-      title: title ?? task.title,
-      description: description ?? task.description,
-    };
 
     await this.persist();
     return this.taskDatabase[0];
