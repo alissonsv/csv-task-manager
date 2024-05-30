@@ -84,4 +84,13 @@ export class TaskRepository {
     await this.persist();
     return this.taskDatabase[0];
   }
+
+  async deleteTask(taskToBeDeleted: Task): Promise<void> {
+    const updatedTaskDatabase = this.taskDatabase.filter(
+      (task) => task.id !== taskToBeDeleted.id,
+    );
+    this.taskDatabase = updatedTaskDatabase;
+
+    await this.persist();
+  }
 }

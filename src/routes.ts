@@ -60,4 +60,20 @@ export const routes = [
       return res.end(JSON.stringify(updatedTask));
     },
   },
+  {
+    method: "DELETE",
+    path: buildRoutePath("/tasks/:id"),
+    handler: async (req: http.IncomingMessage, res: http.ServerResponse) => {
+      const taskToBeDeleted = await taskRepository.searchTaskById(
+        req.params.id,
+      );
+      if (!taskToBeDeleted) {
+        return res.writeHead(404).end();
+      }
+
+      await taskRepository.deleteTask(taskToBeDeleted);
+
+      return res.writeHead(204).end();
+    },
+  },
 ];
