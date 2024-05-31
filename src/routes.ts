@@ -1,4 +1,7 @@
 import http from "node:http";
+import fs from "node:fs/promises";
+
+import { parse } from "csv-parse";
 
 import { TaskRepository } from "./repositories/task-repository";
 import { buildRoutePath } from "./utils/build-route-path";
@@ -27,6 +30,28 @@ export const routes = [
       await taskRepository.createTask(title, description);
 
       return res.writeHead(201).end();
+    },
+  },
+  {
+    method: "POST",
+    path: buildRoutePath("/tasks/csv"),
+    handler: async (req: http.IncomingMessage, res: http.ServerResponse) => {
+      if (!req.files.file[0]) {
+        return res
+          .writeHead(400)
+          .end(JSON.stringify({ error: "Missing file" }));
+      }
+
+      const content = await fs.readFile(req.files.file[0].filepath);
+      const parser = parse(content, { columns: true });
+
+      for await (const record of parser) {
+        const { title, description } = record;
+        await taskRepository.createTask(title, description);
+      }
+      await fs.unlink(req.files.file[0].filepath);
+
+      return res.end();
     },
   },
   {
