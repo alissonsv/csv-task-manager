@@ -6,13 +6,22 @@
 Implementação de uma API para realizar o CRUD de tasks, com as seguintes funcionalidades:
 
 - [X] Criação da task
+    - `POST /tasks`
+- [X] Criação de diversas tasks através da leitura de um aquivo CSV
+    - `POST /tasks/csv`
 - [X] Listagem das tasks
     - [X] Listagem do total de tasks
+        - `GET /tasks`
     - [X] Listagem com filtro
+        - `GET /tasks?title=foo&description=bar`
 - [X] Atualização de uma task pelo `id`
+    - `PUT /tasks/:id`
 - [X] Remoção de uma task pelo `id`
+    - `DELETE /tasks/:id`
 - [X] Marcar pelo `id` uma task como completa
-- [X] Realizar a importação de diversas tasks através da leitura de um aquivo CSV
+    - `PATCH /tasks/:id`
+
+[Mais detalhes aqui](./docs/details.md)
 
 ## Como rodar local
 
